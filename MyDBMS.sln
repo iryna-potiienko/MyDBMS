@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDBMS", "MyDBMS\MyDBMS.csproj", "{DE118BA5-EE06-439D-83B4-1125AB30C397}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDBMS_DataAccess", "MyDBMS_DataAccess\MyDBMS_DataAccess.csproj", "{DE118BA5-EE06-439D-83B4-1125AB30C397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMSServices", "DBMSServices\DBMSServices.csproj", "{A5DEEA93-36C3-442A-BA6A-E41EEDE93195}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDBMS_Services", "MyDBMS_Services\MyDBMS_Services.csproj", "{A5DEEA93-36C3-442A-BA6A-E41EEDE93195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

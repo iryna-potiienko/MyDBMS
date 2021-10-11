@@ -16,7 +16,7 @@ namespace DBMSServices.Services
             _databaseRepository = databaseRepository;
         }
         
-        public Database CreateDatabase(Database database)
+        public Database Create(Database database)
         {
             //var chapter = _chapterMapper.MapToChapter(database);
 
@@ -32,14 +32,14 @@ namespace DBMSServices.Services
             //.ConvertAll(input => _chapterMapper.MapToChapterDto(input));
         }
 
-        public Database GetDatabase(int id)
+        public Database Get(int id)
         {
-            var chapter = _databaseRepository.FindById(id);
-            return chapter;
+            var database = _databaseRepository.FindById(id);
+            return database;
             //return chapter != null ? _chapterMapper.MapToChapterDto(chapter) : null;
         }
 
-        public bool UpdateDatabase(int id, Database database)
+        public bool Edit(int id, Database database)
         {
             var db = _databaseRepository.FindById(id);
             
@@ -54,17 +54,17 @@ namespace DBMSServices.Services
             return false;
         }
 
-        public bool DeleteDatabase(int id)
+        public bool Delete(int id)
         {
             var database = _databaseRepository.FindById(id);
             
             if (database == null)
             {
-                return true;
+                return false;
             }
             
             _databaseRepository.Delete(database);
-            return false;
+            return true;
         }
     }
 }

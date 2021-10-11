@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>DBMSServices</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MyDBMS\MyDBMS.csproj" />
+      <ProjectReference Include="..\MyDBMS_DataAccess\MyDBMS_DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

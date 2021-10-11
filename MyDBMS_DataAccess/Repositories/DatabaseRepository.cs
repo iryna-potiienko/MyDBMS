@@ -8,9 +8,9 @@ namespace MyDBMS.Repositories
 {
     public class DatabaseRepository
     {
-        private readonly MyDBMSContextDbContext _context;
+        private readonly MyDBMSContext _context;
 
-        public DatabaseRepository(MyDBMSContextDbContext applicationDbContext)
+        public DatabaseRepository(MyDBMSContext applicationDbContext)
         {
             _context = applicationDbContext;
         }

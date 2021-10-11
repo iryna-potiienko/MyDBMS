@@ -3,7 +3,7 @@ using MyDBMS.Models;
 
 namespace MyDBMS.Contexts
 {
-    public class MyDBMSContextDbContext: DbContext
+    public class MyDBMSContext: DbContext
     {
         public DbSet<Database> Databases { get; set; }
         public DbSet<Table> Tables { get; set; }
@@ -11,7 +11,7 @@ namespace MyDBMS.Contexts
         public DbSet<Row> Rows { get; set; }
         public DbSet<Cell> Cells { get; set; }
          
-        public MyDBMSContextDbContext()
+        public MyDBMSContext()
         {
             Database.EnsureCreated();
         }

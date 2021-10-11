@@ -28,7 +28,7 @@ namespace MyDBMS
             // }
             // Console.Read();
             
-            using (MyDBMSContextDbContext db = new MyDBMSContextDbContext())
+            using (MyDBMSContext db = new MyDBMSContext())
             {
                 DatabaseRepository _databaseRepository = new DatabaseRepository(db);
 

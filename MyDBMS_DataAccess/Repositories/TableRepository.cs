@@ -1,0 +1,55 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MyDBMS.Contexts;
+using MyDBMS.Models;
+
+namespace MyDBMS.Repositories
+{
+    public class TableRepository
+    {
+        private readonly MyDBMSContext _context;
+
+        public TableRepository(MyDBMSContext applicationDbContext)
+        {
+            _context = applicationDbContext;
+        }
+        
+        public async Task<Table> Create(Table table)
+        {
+            var database = await _context.Databases.FindAsync(table.DatabaseId);
+
+            if (database == null)
+            {
+                return null;
+            }
+
+            _context.Tables.Add(table);
+            await _context.SaveChangesAsync();
+
+            return table;
+        }
+
+        public Task<List<Table>> FindAll()
+        {
+            return _context.Tables.ToListAsync();
+        }
+        
+        public Table FindById(int id)
+        {
+            return _context.Tables.Find(id);
+        }
+
+        public void Update(Table table)
+        {
+            _context.Tables.Update(table);
+            _context.SaveChanges();
+        }
+
+        public void Delete(Table table)
+        {
+            _context.Tables.Remove(table);
+            _context.SaveChanges();
+        }
+    }
+}
