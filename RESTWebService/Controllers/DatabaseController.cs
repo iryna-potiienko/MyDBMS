@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DBMSServices.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MyDBMS.Contexts;
 using MyDBMS.Models;
 
 namespace RESTWebService.Controllers
@@ -26,14 +21,14 @@ namespace RESTWebService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Database>>> GetDatabases()
         {
-            return _databaseService.GetAll(); //await _context.Databases.ToListAsync();
+            return await _databaseService.GetAll();
         }
 
         // GET: api/Database/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Database>> GetDatabase(int id)
         {
-            var database = _databaseService.Get(id);//await _context.Databases.FindAsync(id);
+            var database = await _databaseService.Get(id);
 
             if (database == null)
             {
@@ -73,7 +68,7 @@ namespace RESTWebService.Controllers
 
             return NoContent();*/
 
-            var updated = _databaseService.Edit(id, database);
+            var updated = await _databaseService.Edit(id, database);
             if(updated)
             {
                 return NotFound();
@@ -87,7 +82,7 @@ namespace RESTWebService.Controllers
         [HttpPost]
         public async Task<ActionResult<Database>> PostDatabase(Database database)
         {
-            var created = _databaseService.Create(database);
+            var created = await _databaseService.Create(database);
 
             return CreatedAtAction("GetDatabase", new {id = created.Id}, created);
         }
@@ -96,7 +91,7 @@ namespace RESTWebService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDatabase(int id)
         {
-            var deleted = _databaseService.Delete(id);
+            var deleted = await _databaseService.Delete(id);
             if (deleted)
             {
                 return NotFound();

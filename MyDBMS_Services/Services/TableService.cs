@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -13,27 +14,24 @@ namespace DBMSServices.Services
             _tableRepository = tableRepository;
         }
         
-        public Table Create(Table table)
+        public Task<Table> Create(Table table)
         {
-            var createdTable = _tableRepository.Create(table);
-            return createdTable.Result;
+            return _tableRepository.Create(table);
         }
 
-        public List<Table> GetAll()
+        public Task<List<Table>> GetAll()
         {
-            return _tableRepository.FindAll()
-                .Result;
+            return _tableRepository.FindAll();
         }
 
-        public Table Get(int id)
+        public Task<Table> Get(int id)
         {
-            var table = _tableRepository.FindById(id);
-            return table;
+            return _tableRepository.FindById(id);
         }
 
-        public bool Edit(int id, Table table)
+        public async Task<bool> Edit(int id, Table table)
         {
-            var oldTable = _tableRepository.FindById(id);
+            var oldTable = await _tableRepository.FindById(id);
             
             if (oldTable == null)
             {
@@ -47,9 +45,9 @@ namespace DBMSServices.Services
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var table = _tableRepository.FindById(id);
+            var table = await _tableRepository.FindById(id);
             
             if (table == null)
             {
@@ -58,11 +56,6 @@ namespace DBMSServices.Services
             
             _tableRepository.Delete(table);
             return true;
-        }
-
-        public void TableDifference()
-        {
-            
         }
     }
 }

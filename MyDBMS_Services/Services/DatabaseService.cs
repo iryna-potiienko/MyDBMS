@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -16,32 +17,28 @@ namespace DBMSServices.Services
             _databaseRepository = databaseRepository;
         }
         
-        public Database Create(Database database)
+        public Task<Database> Create(Database database)
         {
             //var chapter = _chapterMapper.MapToChapter(database);
-
-            var createdDatabase = _databaseRepository.Create(database);
-            return createdDatabase.Result;
+            
+            return _databaseRepository.Create(database);
             //return _chapterMapper.MapToChapterDto(createdChapter.Result);
         }
 
-        public List<Database> GetAll()
+        public Task<List<Database>> GetAll()
         {
-            return _databaseRepository.FindAll()
-                .Result;
-            //.ConvertAll(input => _chapterMapper.MapToChapterDto(input));
+            return _databaseRepository.FindAll();
         }
 
-        public Database Get(int id)
+        public Task<Database> Get(int id)
         {
             var database = _databaseRepository.FindById(id);
             return database;
-            //return chapter != null ? _chapterMapper.MapToChapterDto(chapter) : null;
         }
 
-        public bool Edit(int id, Database database)
+        public async Task<bool> Edit(int id, Database database)
         {
-            var db = _databaseRepository.FindById(id);
+            var db = await _databaseRepository.FindById(id);
             
             if (db == null)
             {
@@ -54,9 +51,9 @@ namespace DBMSServices.Services
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var database = _databaseRepository.FindById(id);
+            var database = await _databaseRepository.FindById(id);
             
             if (database == null)
             {

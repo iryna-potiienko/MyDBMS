@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MyDBMS.Models;
 
 namespace DBMSServices.Services
@@ -14,7 +15,7 @@ namespace DBMSServices.Services
             _attributeService = attributeService;
             _rowService = rowService;
         }
-        public List<Row> TableDifference(int tableAId, int tableBId)
+        public async Task<List<Row>> TableDifference(int tableAId, int tableBId)
         {
             var attributesTableA = _attributeService.GetByTableId(tableAId);
             var attributesTableB = _attributeService.GetByTableId(tableBId);
@@ -26,8 +27,8 @@ namespace DBMSServices.Services
                 select attributeA
             ).ToList();
             
-            var rowsA = _rowService.GetByTableId(tableAId);
-            var rowsB = _rowService.GetByTableId(tableBId);
+            var rowsA = await _rowService.GetByTableId(tableAId);
+            var rowsB = await _rowService.GetByTableId(tableBId);
             var resultRows = (
                 from rowA in rowsA from cellA in rowA.Cells
                 from rowB in rowsB from cellB in rowB.Cells

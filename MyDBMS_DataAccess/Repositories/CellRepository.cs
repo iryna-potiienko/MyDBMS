@@ -30,6 +30,7 @@ namespace MyDBMS.Repositories
                 return null;
             }
 
+            if (row.TableId != attribute.TableId) return null;
             _context.Cells.Add(cell);
             
             // row.Cells.Add(cell);
@@ -44,9 +45,9 @@ namespace MyDBMS.Repositories
             return _context.Cells.ToListAsync();
         }
         
-        public Cell FindById(int id)
+        public async Task<Cell> FindById(int id)
         {
-            return _context.Cells.Find(id);
+            return await _context.Cells.FindAsync(id);
         }
 
         public void Update(Cell cell)

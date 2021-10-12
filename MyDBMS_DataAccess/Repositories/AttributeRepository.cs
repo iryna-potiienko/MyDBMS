@@ -25,6 +25,7 @@ namespace MyDBMS.Repositories
                 return null;
             }
 
+            attribute.Table = table;
             _context.Attributes.Add(attribute);
             await _context.SaveChangesAsync();
 
@@ -36,9 +37,9 @@ namespace MyDBMS.Repositories
             return _context.Attributes.ToListAsync();
         }
         
-        public Attribute FindById(int id)
+        public async Task<Attribute> FindById(int id)
         {
-            return _context.Attributes.Find(id);
+            return await _context.Attributes.FindAsync(id);
         }
 
         public void Update(Attribute attribute)

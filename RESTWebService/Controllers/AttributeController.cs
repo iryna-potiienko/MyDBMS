@@ -68,7 +68,7 @@ namespace RESTWebService.Controllers
         [HttpPost]
         public async Task<ActionResult<Attribute>> PostAttribute(Attribute attribute)
         {
-            var created = _attributeService.Create(attribute);
+            var created = await _attributeService.Create(attribute);
 
             return CreatedAtAction("GetAttribute", new {id = created.Id}, created);
         }

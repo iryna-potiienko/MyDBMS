@@ -20,7 +20,7 @@ namespace DBMSServices
                 //_databaseService.Delete(5);
                 var databases = _databaseService.GetAll();
                 Console.WriteLine("Список объектов:");
-                foreach (Database u in databases)
+                foreach (Database u in databases.Result)
                 {
                     Console.WriteLine($"{u.Id}.{u.Name}");
                 }
@@ -42,7 +42,7 @@ namespace DBMSServices
                 
                 var tables = _tableService.GetAll();
                 Console.WriteLine("\nСписок объектов:");
-                foreach (Table u in tables)
+                foreach (Table u in tables.Result)
                 {
                     Console.WriteLine($"{u.Id}. {u.Name}, DatabaseId = {u.DatabaseId}");
                 }

@@ -28,9 +28,9 @@ namespace MyDBMS.Repositories
             return _context.Databases.ToListAsync();
         }
         
-        public Database FindById(int id)
+        public async Task<Database> FindById(int id)
         {
-            return _context.Databases.Find(id);
+            return await _context.Databases.FindAsync(id);
         }
 
         public void Update(Database database)

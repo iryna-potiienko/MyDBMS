@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -13,27 +14,26 @@ namespace DBMSServices.Services
             _attributeRepository = attributeRepository;
         }
 
-        public Attribute Create(Attribute attribute)
+        public Task<Attribute> Create(Attribute attribute)
         {
             var createdAttribute = _attributeRepository.Create(attribute);
-            return createdAttribute.Result;
+            return createdAttribute;
         }
 
-        public List<Attribute> GetAll()
+        public Task<List<Attribute>> GetAll()
         {
-            return _attributeRepository.FindAll()
-                .Result;
+            return _attributeRepository.FindAll();
         }
 
-        public Attribute Get(int id)
+        public Task<Attribute> Get(int id)
         {
             var attribute = _attributeRepository.FindById(id);
             return attribute;
         }
 
-        public bool Edit(int id, Attribute attribute)
+        public async Task<bool> Edit(int id, Attribute attribute)
         {
-            var oldAttribute = _attributeRepository.FindById(id);
+            var oldAttribute = await _attributeRepository.FindById(id);
 
             if (oldAttribute == null)
             {
@@ -48,9 +48,9 @@ namespace DBMSServices.Services
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var attribute = _attributeRepository.FindById(id);
+            var attribute = await _attributeRepository.FindById(id);
 
             if (attribute == null)
             {

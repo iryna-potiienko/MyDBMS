@@ -21,14 +21,14 @@ namespace RESTWebService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Table>>> GetTables()
         {
-            return _tableService.GetAll(); //await _context.Databases.ToListAsync();
+            return await _tableService.GetAll();
         }
 
         // GET: api/Database/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Table>> GetTable(int id)
         {
-            var table = _tableService.Get(id);//await _context.Databases.FindAsync(id);
+            var table = await _tableService.Get(id);//await _context.Databases.FindAsync(id);
 
             if (table == null)
             {
@@ -43,7 +43,7 @@ namespace RESTWebService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTable(int id, Table table)
         {
-            var updated = _tableService.Edit(id, table);
+            var updated = await _tableService.Edit(id, table);
             if(updated)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace RESTWebService.Controllers
         [HttpPost]
         public async Task<ActionResult<Table>> PostTable(Table table)
         {
-            var created = _tableService.Create(table);
+            var created = await _tableService.Create(table);
 
             return CreatedAtAction("GetTable", new {id = created.Id}, created);
         }
@@ -66,7 +66,7 @@ namespace RESTWebService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTable(int id)
         {
-            var deleted = _tableService.Delete(id);
+            var deleted = await _tableService.Delete(id);
             if (deleted)
             {
                 return NotFound();

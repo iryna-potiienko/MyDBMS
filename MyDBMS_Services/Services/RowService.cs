@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -16,27 +17,26 @@ namespace DBMSServices.Services
             _cellService = cellService;
         }
 
-        public Row Create(Row row)
+        public Task<Row> Create(Row row)
         {
             var createdRow = _rowRepository.Create(row);
-            return createdRow.Result;
+            return createdRow;
         }
 
-        public List<Row> GetAll()
+        public Task<List<Row>> GetAll()
         {
-            return _rowRepository.FindAll()
-                .Result;
+            return _rowRepository.FindAll();
         }
 
-        public Row Get(int id)
+        public Task<Row> Get(int id)
         {
             var row = _rowRepository.FindById(id);
             return row;
         }
 
-        public bool Edit(int id, Row attribute)
+        public async Task<bool> Edit(int id, Row attribute)
         {
-            var oldRow = _rowRepository.FindById(id);
+            var oldRow = await _rowRepository.FindById(id);
 
             if (oldRow == null)
             {
@@ -49,9 +49,9 @@ namespace DBMSServices.Services
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var row = _rowRepository.FindById(id);
+            var row = await _rowRepository.FindById(id);
 
             if (row == null)
             {
@@ -62,18 +62,26 @@ namespace DBMSServices.Services
             return true;
         }
 
-        public Row GetAllRow(int id)
+        public async Task<Row> GetAllRow(int id)
         {
-            var row = Get(id);
+            var row = await Get(id);
+            row.Cells = _cellService.GetByRowId(id);
+            return row;
+        }
+        
+        public Row GetAllRow(out Row row, int id)
+        {
+            row = Get(id).Result;
             row.Cells = _cellService.GetByRowId(id);
             return row;
         }
 
-        public List<Row> GetByTableId(int tableId)
+        public async Task<List<Row>> GetByTableId(int tableId)
         {
-            var rows = _rowRepository.FindByTableId(tableId);
+            var rows = await _rowRepository.FindByTableId(tableId);
 
-            return rows.Result.Select(row => GetAllRow(row.Id)).ToList();
+            var res = rows.Select(row => GetAllRow(row.Id).Result).ToList();
+            return res;
         }
         
     }

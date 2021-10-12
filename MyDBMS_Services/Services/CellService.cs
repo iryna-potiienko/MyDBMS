@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -13,27 +14,26 @@ namespace DBMSServices.Services
             _cellRepository = cellRepository;
         }
 
-        public Cell Create(Cell cell)
+        public Task<Cell> Create(Cell cell)
         {
-            var createdCell = _cellRepository.Create(cell);
-            return createdCell.Result;
+            var createdCell =  _cellRepository.Create(cell);
+            return createdCell;
         }
 
-        public List<Cell> GetAll()
+        public async Task<List<Cell>> GetAll()
         {
-            return _cellRepository.FindAll()
-                .Result;
+            return await _cellRepository.FindAll();
         }
 
-        public Cell Get(int id)
+        public Task<Cell> Get(int id)
         {
-            var attribute = _cellRepository.FindById(id);
-            return attribute;
+            var cell = _cellRepository.FindById(id);
+            return cell;
         }
 
-        public bool Edit(int id, Cell attribute)
+        public async Task<bool> Edit(int id, Cell attribute)
         {
-            var oldCell = _cellRepository.FindById(id);
+            var oldCell = await _cellRepository.FindById(id);
 
             if (oldCell == null)
             {
@@ -49,9 +49,9 @@ namespace DBMSServices.Services
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var cell = _cellRepository.FindById(id);
+            var cell = await _cellRepository.FindById(id);
 
             if (cell == null)
             {

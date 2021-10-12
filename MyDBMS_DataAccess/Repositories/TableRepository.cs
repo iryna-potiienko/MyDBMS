@@ -38,9 +38,9 @@ namespace MyDBMS.Repositories
             return _context.Tables.ToListAsync();
         }
         
-        public Table FindById(int id)
+        public async Task<Table> FindById(int id)
         {
-            return _context.Tables.Find(id);
+            return await _context.Tables.FindAsync(id);
         }
 
         public void Update(Table table)
