@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyDBMS.Contexts;
@@ -17,19 +18,22 @@ namespace MyDBMS.Repositories
         
         public async Task<Cell> Create(Cell cell)
         {
-            var table = await _context.Rows.FindAsync(cell.RowId);
-            if (table == null)
+            var row = await _context.Rows.FindAsync(cell.RowId);
+            if (row == null)
             {
                 return null;
             }
             
-            var attribute = await _context.Attributes.FindAsync(cell.AttributeName);
+            var attribute = await _context.Attributes.FindAsync(cell.AttributeId);
             if (attribute == null)
             {
                 return null;
             }
 
             _context.Cells.Add(cell);
+            
+            // row.Cells.Add(cell);
+            // _context.Rows.Update(row);
             await _context.SaveChangesAsync();
 
             return cell;
@@ -55,6 +59,19 @@ namespace MyDBMS.Repositories
         {
             _context.Cells.Remove(cell);
             _context.SaveChanges();
+        }
+
+        public List<Cell> GetByRowId(int rowId)
+        {
+            return _context.Cells.Where(c => c.RowId == rowId).ToList();
+        }
+        public List<Cell> GetByAttributeId(int attributeId)
+        {
+            return _context.Cells.Where(c => c.AttributeId == attributeId).ToList();
+        }
+        public List<Cell> FindInTable(int rowId)
+        {
+            return _context.Cells.Where(c => c.RowId == rowId).Where(c => c.RowId == rowId).ToList();
         }
     }
 }

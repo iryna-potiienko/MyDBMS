@@ -25,6 +25,9 @@ namespace MyDBMS.Repositories
             }
 
             _context.Tables.Add(table);
+
+            // database.Tables.Add(table);
+            // _context.Databases.Update(database);
             await _context.SaveChangesAsync();
 
             return table;

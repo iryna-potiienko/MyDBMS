@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -7,10 +8,12 @@ namespace DBMSServices.Services
     public class RowService
     {
         private readonly RowRepository _rowRepository;
+        private readonly CellService _cellService;
 
-        public RowService(RowRepository rowRepository)
+        public RowService(RowRepository rowRepository, CellService cellService)
         {
             _rowRepository = rowRepository;
+            _cellService = cellService;
         }
 
         public Row Create(Row row)
@@ -58,5 +61,20 @@ namespace DBMSServices.Services
             _rowRepository.Delete(row);
             return true;
         }
+
+        public Row GetAllRow(int id)
+        {
+            var row = Get(id);
+            row.Cells = _cellService.GetByRowId(id);
+            return row;
+        }
+
+        public List<Row> GetByTableId(int tableId)
+        {
+            var rows = _rowRepository.FindByTableId(tableId);
+
+            return rows.Result.Select(row => GetAllRow(row.Id)).ToList();
+        }
+        
     }
 }

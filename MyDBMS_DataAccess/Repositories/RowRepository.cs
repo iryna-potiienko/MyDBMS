@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyDBMS.Contexts;
@@ -50,6 +51,11 @@ namespace MyDBMS.Repositories
         {
             _context.Rows.Remove(row);
             _context.SaveChanges();
+        }
+
+        public Task<List<Row>> FindByTableId(int tableId)
+        {
+            return _context.Rows.Where(r => r.TableId == tableId).ToListAsync();
         }
     }
 }

@@ -60,5 +60,11 @@ namespace DBMSServices.Services
             _attributeRepository.Delete(attribute);
             return true;
         }
+
+        public List<Attribute> GetByTableId(int tableId)
+        {
+            var list = _attributeRepository.GetByTableId(tableId);
+            return list;
+        }
     }
 }

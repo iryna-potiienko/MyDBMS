@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyDBMS.Contexts;
@@ -50,6 +51,11 @@ namespace MyDBMS.Repositories
         {
             _context.Attributes.Remove(attribute);
             _context.SaveChanges();
+        }
+
+        public List<Attribute> GetByTableId(int tableId)
+        {
+            return _context.Attributes.Where(a => a.TableId == tableId).ToList();
         }
     }
 }

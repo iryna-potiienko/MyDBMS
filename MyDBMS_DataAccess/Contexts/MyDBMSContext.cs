@@ -22,15 +22,15 @@ namespace MyDBMS.Contexts
             optionsBuilder.UseSqlServer("Server=IPOTIIENKONB\\SQLEXPRESS;Database=MyDBMSDatabase;Trusted_Connection=True;");
         }
         
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            
-            modelBuilder.Entity<Cell>()
-                .HasOne(a => a.Attribute)
-                .WithMany(c => c.Cells)
-                .HasForeignKey(a => a.AttributeName)
-                .HasPrincipalKey(c=>c.Name);
-        }
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     base.OnModelCreating(modelBuilder);
+        //     
+        //     // modelBuilder.Entity<Cell>()
+        //     //     .HasOne(a => a.Attribute)
+        //     //     .WithMany(c => c.Cells)
+        //     //     .HasForeignKey(a => a.AttributeName)
+        //     //     .HasPrincipalKey(c=>c.Name);
+        // }
     }
 }

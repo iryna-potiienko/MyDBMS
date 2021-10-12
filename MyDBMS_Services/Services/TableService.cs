@@ -59,5 +59,10 @@ namespace DBMSServices.Services
             _tableRepository.Delete(table);
             return true;
         }
+
+        public void TableDifference()
+        {
+            
+        }
     }
 }

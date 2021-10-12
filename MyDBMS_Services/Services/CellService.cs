@@ -41,7 +41,7 @@ namespace DBMSServices.Services
             }
 
             oldCell.Data = attribute.Data;
-            oldCell.AttributeName = attribute.AttributeName;
+            oldCell.AttributeId = attribute.AttributeId;
             oldCell.RowId = attribute.RowId;
             
 
@@ -60,6 +60,11 @@ namespace DBMSServices.Services
 
             _cellRepository.Delete(cell);
             return true;
+        }
+
+        public List<Cell> GetByRowId(int rowId)
+        {
+            return _cellRepository.GetByRowId(rowId);
         }
     }
 }

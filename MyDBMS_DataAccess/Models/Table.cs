@@ -15,6 +15,8 @@ namespace MyDBMS.Models
         public int DatabaseId { get; set; }
         public virtual Database Database { get; set; }
         public virtual ICollection<Attribute> Attributes { get; set; }
+        //public List<List<Cell>> TableCells { get; set; }
+        
         public virtual ICollection<Row> Rows { get; set; }
     }
 }
