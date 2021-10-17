@@ -77,8 +77,8 @@ namespace RESTWebService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAttribute(int id)
         {
-            var deleted = _attributeService.Delete(id);
-            if (deleted.Result)
+            var deleted = await _attributeService.Delete(id);
+            if (deleted)
             {
                 return NotFound();
             }
