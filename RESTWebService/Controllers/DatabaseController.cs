@@ -43,12 +43,12 @@ namespace RESTWebService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDatabase(int id, Database database)
         {
-            /*if (id != database.Id)
+            if (id != database.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(database).State = EntityState.Modified;
+            /*_context.Entry(database).State = EntityState.Modified;
 
             try
             {

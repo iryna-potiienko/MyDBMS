@@ -13,7 +13,9 @@ namespace DBMSServices
             services.AddScoped<AttributeService>();
             services.AddScoped<RowService>();
             services.AddScoped<CellService>();
+            
             services.AddScoped<TablesDifferenceService>();
+            services.AddScoped<ValidateService>();
         }
     }
 }

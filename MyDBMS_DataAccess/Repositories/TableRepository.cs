@@ -24,6 +24,7 @@ namespace MyDBMS.Repositories
                 return null;
             }
 
+            table.Database = database;
             _context.Tables.Add(table);
 
             // database.Tables.Add(table);

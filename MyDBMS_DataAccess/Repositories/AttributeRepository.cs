@@ -25,7 +25,16 @@ namespace MyDBMS.Repositories
                 return null;
             }
 
+            var type = await _context.Types.Where(a => a.Name == attribute.TypeName).FirstOrDefaultAsync();
+
+            if (type == null)
+            {
+                return null;
+            }
+            
             attribute.Table = table;
+            attribute.Type = type;
+            
             _context.Attributes.Add(attribute);
             await _context.SaveChangesAsync();
 

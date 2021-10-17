@@ -10,6 +10,7 @@ namespace MyDBMS.Contexts
         public DbSet<Attribute> Attributes { get; set; }
         public DbSet<Row> Rows { get; set; }
         public DbSet<Cell> Cells { get; set; }
+        public DbSet<Type> Types { get; set; }
          
         public MyDBMSContext()
         {
@@ -22,15 +23,15 @@ namespace MyDBMS.Contexts
             optionsBuilder.UseSqlServer("Server=IPOTIIENKONB\\SQLEXPRESS;Database=MyDBMSDatabase;Trusted_Connection=True;");
         }
         
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     base.OnModelCreating(modelBuilder);
-        //     
-        //     // modelBuilder.Entity<Cell>()
-        //     //     .HasOne(a => a.Attribute)
-        //     //     .WithMany(c => c.Cells)
-        //     //     .HasForeignKey(a => a.AttributeName)
-        //     //     .HasPrincipalKey(c=>c.Name);
-        // }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.Entity<Attribute>()
+                .HasOne(a => a.Type)
+                .WithMany(c => c.Attributes)
+                .HasForeignKey(a => a.TypeName)
+                .HasPrincipalKey(c=>c.Name);
+        }
     }
 }

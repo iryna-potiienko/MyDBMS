@@ -43,6 +43,11 @@ namespace RESTWebService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTable(int id, Table table)
         {
+            if (id != table.Id)
+            {
+                return BadRequest();
+            }
+            
             var updated = await _tableService.Edit(id, table);
             if(updated)
             {

@@ -31,6 +31,10 @@ namespace MyDBMS.Repositories
             }
 
             if (row.TableId != attribute.TableId) return null;
+
+
+            cell.Row = row;
+            cell.Attribute = attribute;
             _context.Cells.Add(cell);
             
             // row.Cells.Add(cell);

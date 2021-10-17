@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyDBMS.Models
 {
@@ -10,6 +11,7 @@ namespace MyDBMS.Models
             Rows = new List<Row>();
         }
         public int Id { get; set; }
+        //[Required]
         public string Name { get; set; }
         
         public int DatabaseId { get; set; }

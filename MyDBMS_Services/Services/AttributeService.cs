@@ -41,7 +41,7 @@ namespace DBMSServices.Services
             }
 
             oldAttribute.Name = attribute.Name;
-            oldAttribute.Type = attribute.Type;
+            oldAttribute.TypeName = attribute.TypeName;
             oldAttribute.TableId = attribute.TableId;
 
             _attributeRepository.Update(oldAttribute);

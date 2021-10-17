@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyDBMS.Models
 {
-    public class Database
+    public class Type
     {
-        public Database()
-        {
-            Tables = new List<Table>();
-        }
         public int Id { get; set; }
+        public Type()
+        {
+            Attributes = new List<Attribute>();
+        }
         //[Required]
         public string Name { get; set; }
-        public virtual ICollection<Table> Tables { get; set; }
+        public virtual ICollection<Attribute> Attributes { get; set; }
     }
 }

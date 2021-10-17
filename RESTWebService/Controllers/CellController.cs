@@ -16,10 +16,12 @@ namespace RESTWebService.Controllers
     public class CellController : ControllerBase
     {
         private readonly CellService _cellService;
+        private readonly ValidateService _validateService;
 
-        public CellController(CellService cellService)
+        public CellController(CellService cellService, ValidateService validateService)
         {
             _cellService = cellService;
+            _validateService = validateService;
         }
 
         // GET: api/Cell
@@ -67,9 +69,15 @@ namespace RESTWebService.Controllers
         [HttpPost]
         public async Task<ActionResult<Cell>> PostCell(Cell cell)
         {
-            var created = await _cellService.Create(cell);
-
-            return CreatedAtAction("GetCell", new { id = created.Id }, created);
+            var tryValidate = await _validateService.ValidateCell(cell);
+            if (tryValidate)
+            {
+                var created = await _cellService.Create(cell);
+                return CreatedAtAction("GetCell", new {id = created.Id}, created);
+            }
+            
+            ModelState.AddModelError("Name", "Incorrect type");
+            return BadRequest();
         }
 
         // DELETE: api/Cell/5
