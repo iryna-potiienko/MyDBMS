@@ -36,6 +36,7 @@ namespace RESTWebService
             
             services.AddRepository(Configuration);
             services.AddService(Configuration);
+            services.AddMapper(Configuration);
             //InitRepositories(services);
             //InitServices(services);
             

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DBMSServices.Mappers;
+using MyDBMS.Dtos;
 using MyDBMS.Models;
 using MyDBMS.Repositories;
 
@@ -7,36 +9,48 @@ namespace DBMSServices.Services
 {
     public class DatabaseService
     {
-        //private readonly ChapterMapper _chapterMapper;
+        private readonly DatabaseMapper _databaseMapper;
 
         private readonly DatabaseRepository _databaseRepository;
 
-        public DatabaseService(DatabaseRepository databaseRepository)
+        public DatabaseService(DatabaseRepository databaseRepository, DatabaseMapper databaseMapper)
         {
-            //_chapterMapper = chapterMapper;
+            _databaseMapper = databaseMapper;
             _databaseRepository = databaseRepository;
         }
         
-        public Task<Database> Create(Database database)
+        public async Task<DatabaseDto> Create(string databaseName)
         {
-            //var chapter = _chapterMapper.MapToChapter(database);
+            //var database = _databaseMapper.MapToDatabase(databaseDto);
             
-            return _databaseRepository.Create(database);
-            //return _chapterMapper.MapToChapterDto(createdChapter.Result);
+            var database = _databaseMapper.MapFromDatabasePostDto(databaseName);
+            var createdDatabase = await _databaseRepository.Create(database);
+            return _databaseMapper.MapToDatabaseDto(createdDatabase);
         }
-
-        public Task<List<Database>> GetAll()
+        
+        public async Task<Database> Create(Database database)
         {
-            return _databaseRepository.FindAll();
+            //var database = _databaseMapper.MapToDatabase(databaseDto);
+            
+            var createdDatabase = await _databaseRepository.Create(database);
+            return createdDatabase;
+            //return _databaseMapper.MapToDatabaseDto(createdDatabase);
         }
 
-        public Task<Database> Get(int id)
+        public async Task<List<DatabaseDto>> GetAll()
         {
-            var database = _databaseRepository.FindById(id);
-            return database;
+            return _databaseRepository.FindAll()
+                .Result
+                .ConvertAll(input => _databaseMapper.MapToDatabaseDto(input));
         }
 
-        public async Task<bool> Edit(int id, Database database)
+        public async Task<DatabaseDto> Get(int id)
+        {
+            var database = await _databaseRepository.FindById(id);
+            return database != null ? _databaseMapper.MapToDatabaseDto(database) : null;
+        }
+
+        public async Task<bool> Edit(int id, DatabaseDto databaseDto)
         {
             var db = await _databaseRepository.FindById(id);
             
@@ -45,7 +59,7 @@ namespace DBMSServices.Services
                 return true;
             }
 
-            db.Name = database.Name;
+            db.Name = databaseDto.Name;
 
             _databaseRepository.Update(db);
             return false;
@@ -62,6 +76,16 @@ namespace DBMSServices.Services
             
             _databaseRepository.Delete(database);
             return true;
+        }
+
+        public Task<Database> GetFullDatabase(int id)
+        {
+            return _databaseRepository.GetFullDatabase(id);
+        }
+
+        public bool DatabaseExist(int id)
+        {
+            return _databaseRepository.DatabaseExist(id);
         }
     }
 }

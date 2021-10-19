@@ -80,8 +80,9 @@ namespace DBMSServices.Services
         {
             var rows = await _rowRepository.FindByTableId(tableId);
 
-            var res = rows.Select(row => GetAllRow(row.Id).Result).ToList();
-            return res;
+            return rows;
+            //var res = rows.Select(row => GetAllRow(row.Id).Result).ToList();
+            //return res;
         }
         
     }

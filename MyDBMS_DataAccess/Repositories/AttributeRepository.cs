@@ -18,23 +18,32 @@ namespace MyDBMS.Repositories
         
         public async Task<Attribute> Create(Attribute attribute)
         {
-            var table = await _context.Tables.FindAsync(attribute.TableId);
+            // var table = await _context.Tables.FindAsync(attribute.TableId);
+            //
+            // if (table == null)
+            // {
+            //     return null;
+            // }
 
-            if (table == null)
+            if (!TableExist(attribute.TableId))
             {
                 return null;
             }
+            // var type = await _context.Types.Where(a => a.Name == attribute.TypeName).FirstOrDefaultAsync();
+            //
+            // if (type == null)
+            // {
+            //     return null;
+            // }
 
-            var type = await _context.Types.Where(a => a.Name == attribute.TypeName).FirstOrDefaultAsync();
-
+            var type = await TypeExist(attribute.TypeName);
+            //attribute.Table = table;
             if (type == null)
             {
                 return null;
             }
-            
-            attribute.Table = table;
+
             attribute.Type = type;
-            
             _context.Attributes.Add(attribute);
             await _context.SaveChangesAsync();
 
@@ -66,6 +75,20 @@ namespace MyDBMS.Repositories
         public List<Attribute> GetByTableId(int tableId)
         {
             return _context.Attributes.Where(a => a.TableId == tableId).ToList();
+        }
+
+        public bool TableExist(int tableId)
+        {
+            var table = _context.Tables.Find(tableId);
+
+            return table != null;
+        }
+
+        public async Task<Type> TypeExist(string typeName)
+        {
+            var type = await _context.Types.Where(a => a.Name == typeName).FirstAsync();
+
+            return type;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MyDBMS.Repositories
                 return null;
             }
 
-            row.Table = table;
+            //row.Table = table;
             _context.Rows.Add(row);
             await _context.SaveChangesAsync();
 
@@ -34,12 +34,15 @@ namespace MyDBMS.Repositories
 
         public Task<List<Row>> FindAll()
         {
-            return _context.Rows.ToListAsync();
+            return _context.Rows.Include(c=>c.Cells).ToListAsync();
         }
         
         public async Task<Row> FindById(int id)
         {
-            return await _context.Rows.FindAsync(id);
+            return await _context.Rows
+                .Include(c=>c.Cells)
+                .Where(c=>c.Id == id)
+                .FirstOrDefaultAsync();;
         }
 
         public void Update(Row row)
@@ -56,7 +59,7 @@ namespace MyDBMS.Repositories
 
         public Task<List<Row>> FindByTableId(int tableId)
         {
-            return _context.Rows.Where(r => r.TableId == tableId).ToListAsync();
+            return _context.Rows.Where(r => r.TableId == tableId).Include(c=>c.Cells).ToListAsync();
         }
     }
 }

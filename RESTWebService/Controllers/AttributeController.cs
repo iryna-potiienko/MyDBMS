@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyDBMS.Contexts;
+using MyDBMS.Dtos;
 using MyDBMS.Models;
 using Attribute = MyDBMS.Models.Attribute;
 
@@ -25,14 +26,14 @@ namespace RESTWebService.Controllers
 
         // GET: api/Attribute
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Attribute>>> GetAttributes()
+        public async Task<ActionResult<IEnumerable<AttributeDto>>> GetAttributes()
         {
             return await _attributeService.GetAll();
         }
 
         // GET: api/Attribute/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Attribute>> GetAttribute(int id)
+        public async Task<ActionResult<AttributeDto>> GetAttribute(int id)
         {
             var attribute = await _attributeService.Get(id);
 
@@ -47,7 +48,7 @@ namespace RESTWebService.Controllers
         // PUT: api/Attribute/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAttribute(int id, Attribute attribute)
+        public async Task<IActionResult> PutAttribute(int id, AttributeDto attribute)
         {
             if (id != attribute.Id)
             {
@@ -55,7 +56,7 @@ namespace RESTWebService.Controllers
             }
 
             var updated = await _attributeService.Edit(id, attribute);
-            if (updated)
+            if (!updated)
             {
                 return NotFound();
             }
@@ -66,7 +67,7 @@ namespace RESTWebService.Controllers
         // POST: api/Attribute
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Attribute>> PostAttribute(Attribute attribute)
+        public async Task<ActionResult<Attribute>> PostAttribute(AttributeDto attribute)
         {
             var created = await _attributeService.Create(attribute);
 
@@ -78,7 +79,7 @@ namespace RESTWebService.Controllers
         public async Task<IActionResult> DeleteAttribute(int id)
         {
             var deleted = await _attributeService.Delete(id);
-            if (deleted)
+            if (!deleted)
             {
                 return NotFound();
             }

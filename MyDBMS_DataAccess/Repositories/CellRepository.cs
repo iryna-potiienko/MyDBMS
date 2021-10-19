@@ -33,7 +33,7 @@ namespace MyDBMS.Repositories
             if (row.TableId != attribute.TableId) return null;
 
 
-            cell.Row = row;
+            //cell.Row = row;
             cell.Attribute = attribute;
             _context.Cells.Add(cell);
             
@@ -46,12 +46,17 @@ namespace MyDBMS.Repositories
 
         public Task<List<Cell>> FindAll()
         {
-            return _context.Cells.ToListAsync();
+            return _context.Cells
+                .Include(c=>c.Attribute)
+                .ToListAsync();
         }
         
         public async Task<Cell> FindById(int id)
         {
-            return await _context.Cells.FindAsync(id);
+            return await _context.Cells
+                .Include(c=>c.Attribute)
+                .Where(c=>c.Id==id)
+                .FirstOrDefaultAsync();
         }
 
         public void Update(Cell cell)
@@ -74,9 +79,9 @@ namespace MyDBMS.Repositories
         {
             return _context.Cells.Where(c => c.AttributeId == attributeId).ToList();
         }
-        public List<Cell> FindInTable(int rowId)
+        public Task<Cell> FindCellInTable(int rowId, int attributeId)
         {
-            return _context.Cells.Where(c => c.RowId == rowId).Where(c => c.RowId == rowId).ToList();
+            return _context.Cells.Where(c => c.RowId == rowId).Where(c => c.AttributeId == attributeId).FirstAsync();
         }
     }
 }

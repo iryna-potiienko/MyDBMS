@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyDBMS.Contexts;
@@ -43,6 +44,37 @@ namespace MyDBMS.Repositories
         {
             _context.Databases.Remove(database);
             _context.SaveChanges();
+        }
+
+        public async Task<Database> GetFullDatabase(int id)
+        {
+            var tables = await _context.Tables
+                     .Include(t => t.Attributes)
+                     .Include(t => t.Rows)
+                     .ThenInclude(t => t.Cells)
+                     .Where(t=>t.DatabaseId==id)
+                     .ToListAsync();
+
+            var database = await FindById(id);
+            var finalDatabase = new Database()
+            {
+                Id = database.Id,
+                Name = database.Name,
+                Tables = tables
+            };
+            return finalDatabase;
+
+            // return await _context.Databases.Include(t => t.Tables)
+            //     .ThenInclude(t => t.Attributes)
+            //     .ThenInclude(t => t.Cells)
+            //     .Where(t => t.Id == id)
+            //     .FirstAsync();
+
+        }
+
+        public bool DatabaseExist(int id)
+        {
+            return _context.Databases.Any(d => d.Id == id);
         }
     }
 }
